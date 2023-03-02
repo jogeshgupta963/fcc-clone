@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     auth_type: {
+      type: String,
       enum: Auth_type,
       default: Auth_type.basic,
       required: true,

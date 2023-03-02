@@ -9,7 +9,6 @@ function checkEnv() {
     "JWT_SECRET",
     "JWT_EXPIRATION",
     "MONGO_URI",
-    "MONGO_URI_TESTING",
   ];
   env.forEach((data) => {
     if (!process.env[data]) {
