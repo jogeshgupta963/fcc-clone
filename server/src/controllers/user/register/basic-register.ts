@@ -7,8 +7,8 @@ export const basicRegister = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
   try {
-    const userExists = await User.find(email);
-    if (userExists) throw new Error("Invalid Credentials");
+    const userExists = await User.findOne({ email });
+    if (userExists) throw new Error("Email Id already exists");
     //hash
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);

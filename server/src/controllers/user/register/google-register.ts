@@ -6,8 +6,8 @@ export const googleRegister = async (req: Request, res: Response) => {
   const { name, email, profile_pic, id_token } = req.body;
 
   try {
-    const userExists = await User.find(email);
-    if (userExists) throw new Error("Invalid Credentials");
+    const userExists = await User.findOne({ email });
+    if (userExists) throw new Error("Email already exists");
 
     //create user
     const user = new User({
