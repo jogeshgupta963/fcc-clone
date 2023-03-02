@@ -30,9 +30,9 @@ async function initServer() {
     }
   }
 
-  app.listen(process.env.PORT, () => {
+  return app.listen(process.env.PORT, () => {
     console.log("Server listening on PORT ", port);
   });
 }
 
-initServer();
+export const server = initServer();

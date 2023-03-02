@@ -4,6 +4,7 @@ import { connectDb } from "../database/connection";
 import request from "supertest";
 import { app } from "../app";
 import { basicUser, googleUser } from "../utils/types";
+import { server } from "..";
 
 let mongoServer: MongoMemoryServer;
 beforeAll(async () => {
@@ -11,7 +12,8 @@ beforeAll(async () => {
   const mongo = await MongoMemoryServer.create();
   const uri: string = mongo.getUri();
   mongoServer = mongo;
-  await connectDb(uri);
+  mongoose.set("strictQuery", true);
+  await mongoose.connect(uri);
 });
 
 beforeEach(async () => {
@@ -24,6 +26,7 @@ beforeEach(async () => {
 
 afterAll(async () => {
   mongoServer.stop();
+  // (await server).close();
   await mongoose.connection.close();
 });
 

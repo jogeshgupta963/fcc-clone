@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { userRouter } from "./routes/user";
 export const app = express();
-
 //configs
 app.use(express.json());
 app.use(cookieParser());
