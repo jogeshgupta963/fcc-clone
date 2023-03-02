@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { transform } from "typescript";
 import { Auth_type, UserDoc } from "../utils/types";
 
 const userSchema = new mongoose.Schema(
@@ -12,6 +11,9 @@ const userSchema = new mongoose.Schema(
       enum: Auth_type,
       default: Auth_type.basic,
       required: true,
+    },
+    id_token: {
+      type: String,
     },
     email: {
       type: String,
