@@ -2,14 +2,14 @@ import request from "supertest";
 import { app } from "../../../app";
 
 it("Successfull Basic Registeration returns 201", async () => {
-  const response = await request(app)
-    .post("/api/user/basic/register")
-    .send({
-      name: "Jogesh",
-      email: "jogeshgupta963@gmail.com",
-      password: "zxcvbnmm",
-    })
-    .expect(201);
+  const response = await request(app).post("/api/user/basic/register").send({
+    name: "Jogesh",
+    email: "jogeshgupta963@gmail.com",
+    password: "zxcvbnmm",
+  });
+
+  console.log(response.body);
+  expect(response.statusCode).toEqual(201);
   expect(response.body.success).toEqual(true);
 });
 
