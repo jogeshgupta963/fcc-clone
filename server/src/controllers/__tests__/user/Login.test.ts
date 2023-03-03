@@ -76,5 +76,5 @@ it("User registered from credentials", async () => {
     id_token: user.password,
   });
   expect(res.statusCode).toEqual(400);
-  expect(res.body.success).toEqual(true);
+  expect(res.body.success).toEqual(false);
 });
