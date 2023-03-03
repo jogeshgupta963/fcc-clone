@@ -3,17 +3,20 @@ import { User } from "../../../models/user";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import bcrypt from "bcrypt";
+import { Auth_type } from "../../../utils/types";
 export const basicLogin = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne(email);
+    const user = await User.findOne({ email });
 
     if (!user) {
-      throw new Error("Invalid Email");
+      throw new Error("Email not found");
       return;
     }
+    if (user.auth_type == Auth_type.google) {
+      throw new Error("Login with google");
+    }
     //check password
-
     const isMatch = await bcrypt.compare(password, user.password!);
     if (!isMatch) throw new Error("Invalid Credentials");
     //jwt
@@ -30,7 +33,7 @@ export const basicLogin = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV! === "prod",
     });
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       data: user,
     });

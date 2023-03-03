@@ -8,7 +8,7 @@ it("Successfull Basic Registeration returns 201", async () => {
     password: "zxcvbnmm",
   });
 
-  console.log(response.body);
+  // console.log(response.body);
   expect(response.statusCode).toEqual(201);
   expect(response.body.success).toEqual(true);
 });
