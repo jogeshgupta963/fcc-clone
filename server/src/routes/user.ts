@@ -8,8 +8,12 @@ import {
 } from "../utils/validators";
 import { requestValidator } from "../middlewares/request-validator";
 import { basicRegister, googleRegister } from "../controllers/user/register";
+import { isLoggedIn } from "../middlewares/is-logged-in";
+import { getCurrentUser } from "../controllers/user/get-user";
 
 const router = express.Router();
+
+router.route("/").get(isLoggedIn, getCurrentUser);
 
 router
   .route("/google/login")
