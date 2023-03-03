@@ -1,11 +1,12 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { connectDb } from "../database/connection";
 import request from "supertest";
 import { app } from "../app";
-import { basicUser, googleUser } from "../utils/types";
-import { server } from "..";
-
+import { basicUser, course, googleUser } from "../utils/types";
+import { createBasicUser } from "./helpers/create-basic-user";
+import { createGoogleUser } from "./helpers/create-google-user";
+import { getCookie } from "./helpers/get-cookie";
+import { createCourse } from "./helpers/create-course";
 let mongoServer: MongoMemoryServer;
 beforeAll(async () => {
   // process.env.JWT_KEY = "asdfasdf";
@@ -58,62 +59,10 @@ declare global {
     email?: string,
     profile_pic?: string
   ): Promise<googleUser>;
+  function createCourses(): Promise<course[]>;
 }
 
-global.createBasicUser = async (
-  name = "jogesh",
-  password = "zxcvbnmm",
-  email = "jogeshgupta963@gmail.com"
-) => {
-  const response = await request(app)
-    .post("/api/user/basic/register")
-    .send({
-      name,
-      email,
-      password,
-    })
-    .expect(201);
-  expect(response.body.success).toEqual(true);
-
-  return response.body.data;
-};
-
-global.createGoogleUser = async (
-  name = "jogesh",
-  email = "jogeshgupta963@gmail.com",
-  profile_pic = "deffault",
-  id_token = "xzcvbnm"
-) => {
-  const response = await request(app)
-    .post("/api/user/google/register")
-    .send({
-      name,
-      email,
-      id_token,
-      profile_pic,
-    })
-    .expect(201);
-  expect(response.body.success).toEqual(true);
-
-  return response.body.data;
-};
-
-global.getCookie = async (
-  name = "jogesh",
-  password = "zxcvbnmm",
-  email = "jogeshgupta963@gmail.com"
-) => {
-  const response = await request(app)
-    .post("/api/user/basic/register")
-    .send({
-      name,
-      email,
-      password,
-    })
-    .expect(201);
-  expect(response.body.success).toEqual(true);
-
-  const cookie = response.get("Set-Cookie");
-
-  return cookie;
-};
+global.createBasicUser = createBasicUser;
+global.createGoogleUser = createGoogleUser;
+global.getCookie = getCookie;
+global.createCourses = createCourse;

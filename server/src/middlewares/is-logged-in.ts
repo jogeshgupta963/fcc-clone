@@ -30,7 +30,10 @@ async function isLoggedIn(req: Request, res: Response, next: NextFunction) {
   const decoded = req.cookies[process.env.COOKIE_NAME!];
 
   if (!decoded) {
-    throw new Error("NOT AUTHORISED");
+    return res.status(400).json({
+      success: false,
+      data: "Not authorised",
+    });
   }
   try {
     const payload = jwt.verify(decoded, process.env.JWT_SECRET!) as Payload;
@@ -38,16 +41,18 @@ async function isLoggedIn(req: Request, res: Response, next: NextFunction) {
 
     const user = (await User.findById(payload.id)) as UserPayload;
     req.user = user;
+    next();
   } catch (err) {
     if (err instanceof MongooseError) {
-      return res.json("Server error");
+      return res.status(500).json({ success: false, data: "Server error" });
     }
     if (err instanceof Error) {
-      return res.json(err.message);
+      return res.status(400).json({ success: false, data: err.message });
     }
-    return res.json("Something went wrong!!");
+    return res
+      .status(500)
+      .json({ success: false, data: "Something went wrong!!" });
   }
-  next();
 }
 
 export { isLoggedIn };
