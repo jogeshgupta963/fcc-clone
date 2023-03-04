@@ -3,10 +3,13 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { userRouter } from "./routes/user";
 import { courseRouter } from "./routes/course";
+import responseTime from "response-time";
+import { resTime } from "./middlewares/metrics";
 export const app = express();
 //configs
 app.use(express.json());
 app.use(cookieParser());
+app.use(responseTime(resTime));
 app.use(cors());
 
 //routes

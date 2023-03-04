@@ -1,6 +1,7 @@
 import { app } from "./app";
 import { connectDb } from "./database/connection";
 import "dotenv/config";
+import { initMetricsServer } from "./metrics/metrics";
 function checkEnv() {
   const env = [
     "PORT",
@@ -35,4 +36,5 @@ async function initServer() {
   });
 }
 
-export const server = initServer();
+initServer();
+initMetricsServer();
